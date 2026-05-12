@@ -1,5 +1,3 @@
-(with K8S Stage)
-
 pipeline {
     agent any
 
@@ -12,7 +10,7 @@ pipeline {
         SCANNER_HOME = tool 'sonar-scanner'
         DOCKER_IMAGE = 'kastrov/bms:latest'
         EKS_CLUSTER_NAME = 'kastro-eks'
-        AWS_REGION = 'us-east-1'
+        AWS_REGION = 'ap-south-1'
     }
 
     stages {
@@ -24,7 +22,7 @@ pipeline {
 
         stage('Checkout from Git') {
             steps {
-                git branch: 'main', url: 'https://github.com/KastroVKiran/Book-My-Show.git'
+                git branch: 'main', url: 'https://github.com/Hari7913/Book-My-Show.git'
                 sh 'ls -la'  // Verify files after checkout
             }
         }
