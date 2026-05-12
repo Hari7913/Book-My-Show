@@ -45,9 +45,19 @@ pipeline {
             }
         }
 
-          stage('Trivy FS Scan') {
+           stage('Docker Build & Push') {
             steps {
-                sh 'trivy fs . > trivyfs.txt'
+                script {
+                    withDockerRegistry(credentialsId: 'dockerhub-creds', toolName: 'docker') {
+                        sh ''' 
+                        echo "Building Docker image..."
+                        docker build --no-cache -t kastrov/bms:latest -f bookmyshow-app/Dockerfile bookmyshow-app
+
+                        echo "Pushing Docker image to registry..."
+                        docker push kastrov/bms:latest
+                        '''
+                    }
+                }
             }
         }
     }
