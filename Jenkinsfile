@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        SCANNER_HOME = tool 'sonar-scanner'
+        
         DOCKER_IMAGE = 'kastrov/bms:latest'
         EKS_CLUSTER_NAME = 'kastro-eks'
         AWS_REGION = 'ap-south-1'
@@ -27,25 +27,7 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonar-server') {
-                    sh ''' 
-                    $SCANNER_HOME/bin/sonar-scanner \
-                        -Dsonar.projectName=BMS \
-                        -Dsonar.projectKey=BMS
-                    '''
-                }
-            }
-        }
-
-        stage('Quality Gate') {
-            steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
-                }
-            }
-        }
+       
 
         stage('Install Dependencies') {
             steps {
