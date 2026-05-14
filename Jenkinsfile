@@ -29,21 +29,7 @@ pipeline {
 
        
 
-        stage('Install Dependencies') {
-            steps {
-                sh '''
-                cd bookmyshow-app
-                ls -la  # Verify package.json exists
-                if [ -f package.json ]; then
-                    rm -rf node_modules package-lock.json  # Remove old dependencies
-                    npm install  # Install fresh dependencies
-                else
-                    echo "Error: package.json not found in bookmyshow-app!"
-                    exit 1
-                fi
-                '''
-            }
-        }
+       
 
            stage('Docker Build & Push') {
             steps {
@@ -58,6 +44,22 @@ pipeline {
                         '''
                     }
                 }
+            }
+        }
+
+         stage('Install Dependencies') {
+            steps {
+                sh '''
+                cd bookmyshow-app
+                ls -la  # Verify package.json exists
+                if [ -f package.json ]; then
+                    rm -rf node_modules package-lock.json  # Remove old dependencies
+                    npm install  # Install fresh dependencies
+                else
+                    echo "Error: package.json not found in bookmyshow-app!"
+                    exit 1
+                fi
+                '''
             }
         }
     }
